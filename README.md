@@ -1,4 +1,4 @@
-amihtml5
+whatcanido
 ========
 
-HTML 5 features detection plugin
+Browser features detection
