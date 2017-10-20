@@ -176,12 +176,25 @@ function getFeatures () {
 
         api_classList : ('classList' in docEl),
 
-        api_localStorage: (function() {
+        api_localStorage: (function () {
             var test = 'x';
 
             try {
                 localStorage.setItem(test, test);
                 localStorage.removeItem(test);
+
+                return true;
+            } catch ( error ) {
+                return false;
+            }
+        }()),
+
+        api_sessionStorage: (function () {
+            var test = 'x';
+
+            try {
+                sessionStorage.setItem(test, test);
+                sessionStorage.removeItem(test);
 
                 return true;
             } catch ( error ) {
@@ -230,6 +243,28 @@ function getFeatures () {
         }()),
 
         api_serviceWorker : ('serviceWorker' in navigator),
+
+        api_indexedDB: (function () {
+            var passed = false,
+                indexedDB;
+
+            try {
+                indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.moz_indexedDB || window.oIndexedDB || window.msIndexedDB;
+
+                passed = true;
+
+                if ( indexedDB && ! 'deleteDatabase' in indexedDB ) {
+                    passed = false;
+                }
+            } catch ( error ) {
+                /* If we get a security exception we know the feature exists, but cookies are disabled */
+                if ( error.name == 'NS_ERROR_DOM_SECURITY_ERR' || error.name == 'SecurityError' ) {
+                    passed = true;
+                }
+            }
+
+            return passed;
+        }()),
 
         _cors : ('XMLHttpRequest' in window && 'withCredentials' in new XMLHttpRequest()),
 
