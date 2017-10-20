@@ -122,15 +122,9 @@ function getFeatures () {
 
         _querySelectorAll : !!doc.querySelectorAll,
 
-        api_matchMedia : !!window.matchMedia,
-
         _deviceMotion : ('DeviceMotionEvent' in window),
 
         _deviceOrientation : ('DeviceOrientationEvent' in window),
-
-        tag_contextMenu : ('contextMenu' in docEl && 'HTMLMenuItemElement' in window),
-
-        api_classList : ('classList' in docEl),
 
         attr_placeholder: (function () {
             return 'placeholder' in inputDummy;
@@ -139,41 +133,6 @@ function getFeatures () {
         attr_autofocus: (function () {
             return 'autofocus' in inputDummy;
         }()),
-
-        api_localStorage: (function() {
-            var test = 'x';
-
-            try {
-                localStorage.setItem(test, test);
-                localStorage.removeItem(test);
-
-                return true;
-            } catch ( error ) {
-                return false;
-            }
-        }()),
-
-        api_WebWorker: (function () {
-            return !!window.Worker;
-        }()),
-
-        api_microdata: (function () {
-            return !!doc.getItems;
-        }()),
-
-        api_history: (function () {
-            return !!(window.history && history.pushState);
-        }()),
-
-        api_geolocation: (function () {
-            return !!navigator.geolocation;
-        }()),
-
-        api_offlineApp: (function () {
-            return !!window.applicationCache;
-        }()),
-
-        api_serviceWorker : ('serviceWorker' in navigator),
 
         _viewportUnit: (function ( el ) {
             try {
@@ -199,18 +158,6 @@ function getFeatures () {
             }
         }(util.create('dummy'))),
 
-        tag_video: (function () {
-            return !!util.create('video').canPlayType;
-        }()),
-
-        api_canvas: (function () {
-            return !!canvasDummy.getContext;
-        }()),
-
-        api_canvasText: (function () {
-            return !!canvasDummy.getContext && typeof canvasDummy.getContext('2d').fillText === 'function';
-        }()),
-
         attr_inputTypes: (function () {
             var types = ['search', 'number', 'range', 'color', 'tel', 'url', 'email', 'date', 'month', 'week', 'time', 'datetime', 'datetime-local'],
                 result = {},
@@ -225,6 +172,25 @@ function getFeatures () {
 
         _svg : !!document.createElementNS && !!document.createElementNS("http://www.w3.org/2000/svg", "svg").createSVGRect,
 
+        // APIs
+
+        api_classList : ('classList' in docEl),
+
+        api_localStorage: (function() {
+            var test = 'x';
+
+            try {
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+
+                return true;
+            } catch ( error ) {
+                return false;
+            }
+        }()),
+
+        api_matchMedia : !!window.matchMedia,
+
         api_webGL : (function ( el ) {
             try {
                 return !!(window.WebGLRenderingContext && (el.getContext("webgl") || el.getContext("experimental-webgl")));
@@ -232,6 +198,38 @@ function getFeatures () {
                 return false;
             }
         }(util.create('canvas'))),
+
+        api_webSockets: 'WebSocket' in window || 'MozWebSocket' in window,
+
+        api_canvas: (function () {
+            return !!canvasDummy.getContext;
+        }()),
+
+        api_canvasText: (function () {
+            return !!canvasDummy.getContext && typeof canvasDummy.getContext('2d').fillText === 'function';
+        }()),
+
+        api_WebWorker: (function () {
+            return !!window.Worker;
+        }()),
+
+        api_microdata: (function () {
+            return !!doc.getItems;
+        }()),
+
+        api_history: (function () {
+            return !!(window.history && history.pushState);
+        }()),
+
+        api_geolocation: (function () {
+            return !!navigator.geolocation;
+        }()),
+
+        api_offlineApp: (function () {
+            return !!window.applicationCache;
+        }()),
+
+        api_serviceWorker : ('serviceWorker' in navigator),
 
         _cors : ('XMLHttpRequest' in window && 'withCredentials' in new XMLHttpRequest()),
 
@@ -249,7 +247,15 @@ function getFeatures () {
         // Test if img sizes attribute is supported
         attr_sizes : ('sizes' in util.create('img')),
 
+        // TAGs
+
         // Test if Picture element is supported
-        tag_pictureElement : ('HTMLPictureElement' in window)
+        tag_pictureElement : ('HTMLPictureElement' in window),
+
+        tag_video: (function () {
+            return !!util.create('video').canPlayType;
+        }()),
+
+        tag_contextMenu : ('contextMenu' in docEl && 'HTMLMenuItemElement' in window)
     };
 }
