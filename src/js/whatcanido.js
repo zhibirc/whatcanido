@@ -218,22 +218,15 @@ function getFeatures () {
         api_serviceWorker : ('serviceWorker' in navigator),
 
         api_indexedDB: (function () {
-            var passed = false,
-                indexedDB;
+            var indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.moz_indexedDB || window.oIndexedDB || window.msIndexedDB,
+                passed    = false;
 
-            try {
-                indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.moz_indexedDB || window.oIndexedDB || window.msIndexedDB;
-
+            if ( indexedDB ) {
                 passed = true;
+            }
 
-                if ( indexedDB && ! 'deleteDatabase' in indexedDB ) {
-                    passed = false;
-                }
-            } catch ( error ) {
-                /* If we get a security exception we know the feature exists, but cookies are disabled */
-                if ( error.name == 'NS_ERROR_DOM_SECURITY_ERR' || error.name == 'SecurityError' ) {
-                    passed = true;
-                }
+            if ( indexedDB && !('deleteDatabase' in indexedDB) ) {
+                passed = false;
             }
 
             return passed;
