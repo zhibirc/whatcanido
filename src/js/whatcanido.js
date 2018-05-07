@@ -1,34 +1,5 @@
 var doc = document;
 
-/*
- var supports = (function() {
- var div = document.createElement('div'),
- vendors = 'Khtml Ms O Moz Webkit'.split(' '),
- len = vendors.length;
-
- return function(prop) {
- if ( prop in div.style ) return true;
-
- prop = prop.replace(/^[a-z]/, function(val) {
- return val.toUpperCase();
- });
-
- while(len--) {
- if ( vendors[len] + prop in div.style ) {
- // browser supports box-shadow. Do what you need.
- // Or use a bang (!) to test if the browser doesn't.
- return true;
- }
- }
- return false;
- };
- })();
-
- if ( supports('textShadow') ) {
- document.documentElement.className += ' textShadow';
- }
- */
-
 function whatcanidoInit () {
     var features = getFeatures();
 
@@ -38,7 +9,7 @@ function whatcanidoInit () {
         window.whatcanido[key] = features[key];
     });
 
-    window.whatcanido.printTable = function ( destination ) {
+    window.whatcanido.printTable = function () {
         var tbody = doc.createElement('tbody'),
             pull  = [];
 
@@ -52,7 +23,9 @@ function whatcanidoInit () {
 
         doc.getElementsByTagName('table')[0].appendChild(tbody);
         console.log(pull.join('\n'));
-    }
+    };
+
+    whatcanido.printTable();
 }
 
 
